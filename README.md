@@ -25,3 +25,8 @@ This is a Java Plugin for CollectD. It publishes CollectD metrics to BeeInstant 
     </Plugin>
     ```
 * Restart collectd `sudo service collectd restart`.
+
+### Troubleshooting
+* Check collectd log in syslog `grep collectd /var/log/syslog` for any error.
+* If `ldd /usr/lib/collectd/java.so` show `libjvm.so` not found, install jre `sudo apt install openjdk-8-jre`. Check output of `ldd /usr/lib/collectd/java.so` again to make sure `libjvm.so` is found.
+* Restart collectd `sudo service collectd restart`.
