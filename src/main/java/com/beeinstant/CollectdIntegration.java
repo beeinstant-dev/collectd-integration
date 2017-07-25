@@ -33,7 +33,7 @@ public class CollectdIntegration implements CollectdWriteInterface, CollectdConf
 
     @Override
     public int config(OConfigItem oConfigItem) {
-        String beeInstantHost = null;
+        String endpoint = null;
         String publicKey = null;
         String secretKey = null;
 
@@ -41,8 +41,8 @@ public class CollectdIntegration implements CollectdWriteInterface, CollectdConf
             if (child.getKey().equals("BeeInstant")) {
                 for (final OConfigItem entry: child.getChildren()) {
                     Collectd.logInfo("BeeInstant " + entry.getKey() + ":" + entry.getValues().get(0).getString());
-                    if (entry.getKey().equals("Host")) {
-                        beeInstantHost = entry.getValues().get(0).getString();
+                    if (entry.getKey().equals("Endpoint")) {
+                        endpoint = entry.getValues().get(0).getString();
                     } else if (entry.getKey().equals("PublicKey")) {
                         publicKey = entry.getValues().get(0).getString();
                     } else if (entry.getKey().equals("SecretKey")) {
@@ -53,14 +53,14 @@ public class CollectdIntegration implements CollectdWriteInterface, CollectdConf
             }
         }
 
-        if (beeInstantHost == null || publicKey == null || secretKey == null) {
+        if (endpoint == null || publicKey == null || secretKey == null) {
             Collectd.logError("Missing BeeInstant configuration");
             return 1;
         }
 
-        System.setProperty("beeinstant.host", beeInstantHost);
-        System.setProperty("publicKey", publicKey);
-        System.setProperty("secretKey", secretKey);
+        System.setProperty("beeinstant.endpoint", endpoint);
+        System.setProperty("beeinstant.publicKey", publicKey);
+        System.setProperty("beeinstant.secretKey", secretKey);
         MetricsManager.init("BeeInstant-Collectd");
 
         return 0;
