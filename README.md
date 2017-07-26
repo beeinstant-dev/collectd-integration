@@ -17,7 +17,7 @@ This is a Java Plugin for CollectD. It publishes CollectD metrics to BeeInstant 
         LoadPlugin "com.beeinstant.CollectdIntegration"
         <Plugin "CollectdIntegration">
             <BeeInstant>
-                Host "<beeinstant-endpoint>"
+                Endpoint "<beeinstant-endpoint>"
                 PublicKey "<beeinstant-public-key>"
                 SecretKey "<beeinstant-secret-key>"
             </BeeInstant>
