@@ -27,6 +27,11 @@
             <artifactId>plugin-api</artifactId>
             <version>5.4.0</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>RELEASE</version>
+        </dependency>
     </dependencies>
 
     <build>

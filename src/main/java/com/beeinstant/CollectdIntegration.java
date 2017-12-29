@@ -7,6 +7,8 @@ import org.collectd.api.*;
 
 public class CollectdIntegration implements CollectdWriteInterface, CollectdConfigInterface, CollectdShutdownInterface {
 
+    private CpuState cpuState = new CpuState();
+
     public CollectdIntegration() {
         Collectd.registerWrite("BeeInstant", this);
         Collectd.registerConfig("CollectdIntegration", this);
@@ -28,6 +30,17 @@ public class CollectdIntegration implements CollectdWriteInterface, CollectdConf
         for (final Number value: valueList.getValues()) {
             metricsLogger.record(metric, Math.max(0, value.doubleValue()), Unit.NONE);
         }
+
+        // calculate cpu utilization
+        if (valueList.getPlugin().equalsIgnoreCase("cpu")) {
+            CpuState curCpuState = new CpuState();
+            double cpuUtilization = CpuState.calculateCpuUtilization(curCpuState, this.cpuState);
+            this.cpuState = curCpuState;
+
+            MetricsManager.getMetricsLogger("plugin=cpu,instance=All,host=" + valueList.getHost())
+                    .record("Utilization", cpuUtilization, Unit.NONE);
+        }
+
         return 0;
     }
 
