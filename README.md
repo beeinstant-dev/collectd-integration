@@ -20,6 +20,7 @@ This is a Java Plugin for CollectD. It publishes CollectD metrics to BeeInstant 
                 Endpoint "<beeinstant-endpoint>"
                 PublicKey "<beeinstant-public-key>"
                 SecretKey "<beeinstant-secret-key>"
+                HostGroup "<group-name-of-the-host>"
             </BeeInstant>
         </Plugin>
     </Plugin>

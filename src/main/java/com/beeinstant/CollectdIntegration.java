@@ -8,6 +8,7 @@ import org.collectd.api.*;
 public class CollectdIntegration implements CollectdWriteInterface, CollectdConfigInterface, CollectdShutdownInterface {
 
     private CpuState cpuState = new CpuState();
+    private String hostGroup = "";
 
     public CollectdIntegration() {
         Collectd.registerWrite("BeeInstant", this);
@@ -39,6 +40,11 @@ public class CollectdIntegration implements CollectdWriteInterface, CollectdConf
 
             MetricsManager.getMetricsLogger("plugin=cpu,instance=All,host=" + valueList.getHost())
                     .record("Utilization", cpuUtilization, Unit.NONE);
+
+            if (!this.hostGroup.isEmpty()) {
+                MetricsManager.getMetricsLogger("plugin=cpu,hostgroup=" + this.hostGroup)
+                        .record("Utilization", cpuUtilization, Unit.NONE);
+            }
         }
 
         return 0;
@@ -60,6 +66,8 @@ public class CollectdIntegration implements CollectdWriteInterface, CollectdConf
                         publicKey = entry.getValues().get(0).getString();
                     } else if (entry.getKey().equals("SecretKey")) {
                         secretKey = entry.getValues().get(0).getString();
+                    } else if (entry.getKey().equals("HostGroup")) {
+                        this.hostGroup = entry.getValues().get(0).getString();
                     }
                 }
                 break;
